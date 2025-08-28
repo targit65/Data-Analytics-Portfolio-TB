@@ -1,0 +1,1 @@
+I analyzed mobile sales performance across regions and brands. Built interactive dashboard with KPIs (revenue, units sold, profit margin), DAX measures, and slicers for dynamic insights. Tools: Power BI (DAX, Data Modeling, Dashboard Design).
