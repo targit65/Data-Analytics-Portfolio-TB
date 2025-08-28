@@ -1,0 +1,1 @@
+Used Pandas & NumPy to clean and preprocess raw customer sales data. Performed EDA to identify sales trends and customer segments. Visualized insights using Matplotlib & Seaborn. Tools: Python (Pandas, NumPy, Matplotlib, Seaborn, Jupyter Notebook).
