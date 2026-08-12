@@ -32,6 +32,20 @@ FROM rest_data_tbl
 GROUP BY Item_Name
 ORDER BY Top10_Rev 
 DESC LIMIT 10;
+
+# Find Top 5 Revenue products using Rank
+WITH product_rev AS (SELECT Item_Name, SUM(Total_Price) AS Revenue
+FROM rest_data_tbl
+GROUP BY Item_Name
+ORDER BY Revenue
+DESC),
+ranked_products AS (SELECT Item_Name, Revenue,
+RANK() OVER(ORDER BY Revenue DESC) AS Revenue_RANK
+FROM product_rev)
+SELECT Item_Name, Revenue, Revenue_RANK
+FROM ranked_products
+WHERE Revenue_RANK <= 5;
+
 # 2. Bottom 10 Products by Revenue
 SELECT Item_Name, SUM(Total_Price) AS Bottom10_Rev
 FROM rest_data_tbl
@@ -105,7 +119,7 @@ GROUP BY Delivery_Location
 ORDER BY Revenue
 DESC;
 
-#Orders by Location
+# Orders by Location
 SELECT Delivery_Location, COUNT(Order_ID) AS Orders, DATE_FORMAT(Date, '%Y-%m') AS Month_Yr
 FROM rest_data_tbl
 GROUP BY Delivery_Location
@@ -183,33 +197,18 @@ SELECT Month_Yr, Revenue, SUM(Revenue) OVER(order by Month_Yr) AS Running_Rev
 FROM MonthlyRev
 GROUP BY Month_Yr;
 
-# Monthly Growth
-WITH MonthlyRev AS (SELECT DATE_FORMAT(Date, '%Y-%m') AS Month_Yr,
-SUM(Total_Price) AS Curr_Month_Revenue
+# Monthly Revenue Growth
+WITH mnthly_rev AS (SELECT DATE_FORMAT(Date, '%Y-%m') AS mnth, SUM(Total_Price) AS revenue
 FROM rest_data_tbl
-GROUP BY Month_Yr)
-SELECT Month_Yr, Curr_Month_Revenue, LAG(Curr_Month_Revenue,1) OVER(order by Month_Yr) AS Pre_Month_Revenue,
-ROUND(Curr_Month_Revenue - LAG(Curr_Month_Revenue,1) OVER(order by Month_Yr),2) AS Growth,
-ROUND((Curr_Month_Revenue - LAG(Curr_Month_Revenue,1) OVER(order by Month_Yr)) *100/ LAG(Curr_Month_Revenue,1) OVER(order by Month_Yr)) AS Growth_percent
-FROM MonthlyRev
-GROUP BY Month_Yr;
- 
-# Revenue Ranking
-WITH monthly_rev AS (SELECT DATE_FORMAT(Date, '%Y-%m') AS Month_Yr,
-SUM(Total_Price) AS Revenue
-FROM rest_data_tbl
-GROUP BY Month_Yr)
-SELECT Month_Yr, Revenue, RANK() OVER(order by Revenue) AS Revenue_Rank
-FROM monthly_rev
-GROUP BY Month_Yr;
-# Dense Rank
-WITH monthly_rev AS (SELECT DATE_FORMAT(Date, '%Y-%m') AS Month_Yr,
-SUM(Total_Price) AS Revenue
-FROM rest_data_tbl
-GROUP BY Month_Yr)
-SELECT Month_Yr, Revenue, DENSE_RANK() OVER(order by Revenue) AS Rev_Dense_Rank
-FROM monthly_rev
-GROUP BY Month_Yr;
+GROUP BY mnth
+ORDER BY revenue
+DESC),
+mnth_growth_tbl AS (SELECT mnth, revenue, 
+LAG(revenue) OVER(ORDER BY mnth) AS pre_mnth
+FROM mnthly_rev)
+SELECT mnth, revenue, pre_mnth, ROUND((revenue-pre_mnth)*100/pre_mnth,1) AS growth_percent
+FROM mnth_growth_tbl
+ORDER BY mnth;
 
 SELECT Delivery_Location, COUNT(*) AS No_of_Rows, SUM(Quantity) AS Quantity, SUM(Total_Price) AS Revenue
 FROM rest_data_tbl
@@ -274,5 +273,5 @@ FROM rest_data_tbl
 WHERE Order_ID IN ('SW-214', 'SW-215', 'SW-216')
 ORDER BY Order_ID, Delivery_Location, Item_Name;
 
-SELECT SUM(Total_Price) AS Revenue
+SELECT SUM(Total_Price) AS Total_Revenue
 FROM rest_data_validate;
