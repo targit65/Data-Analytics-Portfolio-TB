@@ -1,4 +1,5 @@
 Bank Transactions Analysis
+
 📊 Project Overview
 An end-to-end Bank Transactions Data Analysis project using Python, MySQL, and Power BI to analyze more than 1 million banking transactions and identify transaction patterns, customer behavior, high-value transactions, temporal trends, and geographic concentration.
 The project follows a practical analytics workflow:
