@@ -44,6 +44,7 @@ Dataset dimensions
 The original dataset is not included in this repository where redistribution rights are not established.
 ________________________________________
 🔍 Data Quality & Preparation
+
 The dataset is audited before analysis to assess data quality and identify potential issues.
 Key checks performed
 •	Duplicate transaction identification
@@ -57,6 +58,7 @@ Key checks performed
 •	Balance validation
 •	Outlier identification
 Important data-quality findings
+
 •	No duplicate Transaction IDs were identified.
 •	Missing values were present in fields such as DOB, gender, location, and balance.
 •	DOB contained unrealistic historical and future values that required validation before customer-level analysis.
