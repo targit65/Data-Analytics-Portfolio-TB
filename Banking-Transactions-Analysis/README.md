@@ -1,6 +1,7 @@
 Bank Transactions Analysis
 
 📊 Project Overview
+
 An end-to-end Bank Transactions Data Analysis project using Python, MySQL, and Power BI to analyze more than 1 million banking transactions and identify transaction patterns, customer behavior, high-value transactions, temporal trends, and geographic concentration.
 The project follows a practical analytics workflow:
 Data Audit → Data Cleaning → Exploratory Data Analysis → SQL Business Analysis → Power BI Dashboard
@@ -33,6 +34,7 @@ o	Project documentation
 o	Version-controlled portfolio
 ________________________________________
 📁 Dataset
+
 The project uses a banking transaction dataset containing approximately 1.05 million transaction records.
 Dataset dimensions
 •	Rows: 1,048,567
@@ -62,6 +64,7 @@ Important data-quality findings
 •	High-value transactions were separately identified for business analysis.
 ________________________________________
 📈 Key Business Findings
+
 1. Overall Transaction Performance
 •	Total Transaction Value: ₹1.651 billion
 •	Average Transaction Value: ₹1,574.34
@@ -72,6 +75,7 @@ ________________________________________
 The difference between the mean and median transaction value indicates a highly right-skewed transaction distribution, with a relatively small number of large transactions contributing significantly to total transaction value.
 ________________________________________
 2. Customer Transaction Behavior
+   
 Customers are analyzed based on their transaction frequency.
 Customer frequency profile
 •	One-time customers: 740,653
@@ -81,6 +85,7 @@ Repeat customers generated approximately ₹483.93 million in transaction value.
 This provides an opportunity for further analysis of customer retention and repeat-transaction behavior.
 ________________________________________
 3. High-Value Transactions
+   
 An IQR-based approach is used to identify unusually large transaction amounts.
 IQR calculation
 •	Q1: ₹161
@@ -94,6 +99,7 @@ Using this threshold:
 This demonstrates that transaction count and transaction value tell very different stories: a relatively small portion of transactions accounts for a substantial share of total value.
 ________________________________________
 4. High-Value Transaction Segment
+   
 Transactions above the selected high-value threshold are separately analyzed.
 •	High-value transactions: 23,816
 •	Share of all transactions: approximately 2.27%
@@ -103,6 +109,7 @@ Transactions above the selected high-value threshold are separately analyzed.
 This segment is particularly relevant for transaction monitoring and customer-value analysis.
 ________________________________________
 5. Time-Based Analysis
+   
 Transaction activity is analyzed by:
 •	Date
 •	Day of week
@@ -110,6 +117,7 @@ Transaction activity is analyzed by:
 •	Transaction value
 •	Transaction volume
 Observations
+
 •	The highest transaction count on a single day was 27,261 transactions.
 •	The highest transaction-value day generated approximately ₹47.53 million.
 •	Saturday recorded approximately ₹246.67 million in transaction value.
@@ -119,8 +127,10 @@ Observations
 These patterns can help identify peak transaction periods and support operational capacity planning.
 ________________________________________
 🌍 Location Analysis
+
 A separate Power BI page provides geographic analysis.
 BANK TRANSACTIONS — LOCATION ANALYSIS
+
 Location names are standardized into broader geographic categories to make location-level analysis more meaningful.
 For example, different Mumbai-related location names are consolidated into a broader Mumbai category.
 The location analysis includes:
@@ -131,6 +141,7 @@ The location analysis includes:
 The dashboard allows users to identify the locations contributing the highest transaction value.
 ________________________________________
 📊 Power BI Dashboard
+
 The Power BI report contains two main analytical pages.
 Page 1 — BANK TRANSACTIONS ANALYSIS DASHBOARD
 Focus areas:
@@ -141,7 +152,9 @@ Focus areas:
 •	Transaction bands
 •	Time-based transaction analysis
 •	High-value transaction analysis
+
 Page 2 — BANK TRANSACTIONS — LOCATION ANALYSIS
+
 Focus areas:
 •	Location performance
 •	Location ranking
@@ -149,6 +162,7 @@ Focus areas:
 •	Geographic concentration
 ________________________________________
 🧮 SQL Business Analysis
+
 MySQL is used to perform business-oriented analysis including:
 •	Customer-level transaction totals
 •	Date-level transaction analysis
@@ -161,6 +175,7 @@ MySQL is used to perform business-oriented analysis including:
 The SQL analysis is designed around business questions rather than only technical SQL exercises.
 ________________________________________
 🐍 Python Analysis
+
 Python is used for:
 •	Initial data inspection
 •	Data-type validation
@@ -175,6 +190,7 @@ Python is used for:
 The Python notebook provides the analytical foundation for the subsequent SQL and Power BI work.
 ________________________________________
 💡 Business Questions Addressed
+
 This project addresses questions such as:
 1.	What is the overall transaction value and volume?
 2.	What is the typical transaction amount?
@@ -187,6 +203,7 @@ This project addresses questions such as:
 9.	How does transaction volume differ from transaction-value contribution?
 ________________________________________
 📂 Repository Structure
+
 Bank-Transactions-Analysis/
 │
 ├── README.md
@@ -211,6 +228,7 @@ Bank-Transactions-Analysis/
     └── data_dictionary.md
 ________________________________________
 🎯 Skills Demonstrated
+
 This project demonstrates practical skills in:
 •	Data Cleaning
 •	Data Quality Assessment
@@ -229,6 +247,7 @@ This project demonstrates practical skills in:
 •	Business Storytelling
 ________________________________________
 🚀 Future Improvements
+
 Potential extensions to the project include:
 •	Customer lifetime value analysis
 •	Customer retention analysis
@@ -240,11 +259,14 @@ Potential extensions to the project include:
 •	Advanced customer risk segmentation
 ________________________________________
 👤 Author
+
 Tarun Biswas
+
 Data Analyst | Reporting & MIS | IT Operations
 Interested in applying data analytics, SQL, Python, and Power BI to solve practical business problems.
 ________________________________________
 ⭐ Project Objective
+
 The objective of this project is not simply to demonstrate technical tools, but to show how raw banking transaction data can be transformed into structured business insights and management-ready dashboards using a complete analytics workflow.
 
 
