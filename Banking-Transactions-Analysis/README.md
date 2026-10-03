@@ -209,11 +209,16 @@ ________________________________________
 
 Bank-Transactions-Analysis/README.md
       data/README.md
+      
       notebook/bank_analysis.ipynb
+      
       sql/banking_analysis.sql
+      
       powerbi/bank_txns_dashboard.pbix
+      
       screenshots/Dashboard_Bank_transactions_Analysis_page1.jpg,
-                  Dashboard_Bank_txns_Location_Analysis_page2.jpg               
+                  Dashboard_Bank_txns_Location_Analysis_page2.jpg   
+                  
       documentation/data_dictionary.md
 ________________________________________
 🎯 Skills Demonstrated
