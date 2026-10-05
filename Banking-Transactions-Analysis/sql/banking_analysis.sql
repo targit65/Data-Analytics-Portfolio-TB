@@ -1,0 +1,195 @@
+# Which customers generated the highest transaction value during the observation period?
+SELECT
+    customerid,
+    SUM(`transactionamount_(inr)`) AS trans_value
+FROM banktxns
+GROUP BY customerid
+ORDER BY trans_value DESC
+LIMIT 10;
+
+# Which days generated the highest transaction value?
+SELECT transactiondate, customerid,
+SUM(`transactionamount_(inr)`) AS trans_value
+FROM banktxns
+GROUP BY customerid
+ORDER BY trans_value DESC
+LIMIT 10;
+
+# Which locations have the highest transaction value?
+SELECT custlocation, 
+       SUM(`transactionamount_(inr)`) AS trans_value
+FROM banktxns
+GROUP BY custlocation
+ORDER BY trans_value DESC
+LIMIT 10;
+
+# For each customer, calculate their total transaction value and their percentage contribution to 
+#the bank's overall transaction value.
+SELECT
+    customerid AS customer,
+    SUM(`transactionamount_(inr)`) AS trans_value,
+    SUM(`transactionamount_(inr)`) /
+        (SELECT SUM(`transactionamount_(inr)`)
+         FROM banktxns) * 100 AS contribution_pct
+FROM banktxns
+GROUP BY customerid
+ORDER BY trans_value DESC;
+
+# Pareto analysis : Top 20% of customers contribute about 77% of transaction value.
+WITH cust_totals AS (
+	SELECT customerid,  
+    SUM(`transactionamount_(inr)`) AS cust_amt     
+    FROM banktxns     
+    GROUP BY customerid
+    ), 
+    running_totals AS  (
+    SELECT customerid,     
+    cust_amt,     
+    ROW_NUMBER() OVER(ORDER BY cust_amt DESC) AS running_cust_count,     
+    SUM(cust_amt) OVER(ORDER BY cust_amt DESC) AS running_total,     
+    SUM(cust_amt) OVER() AS gtotal,     
+    COUNT(*) OVER() AS total_customers     
+    FROM cust_totals     
+    ) 
+SELECT customerid, 
+cust_amt,  
+running_cust_count,  
+running_total, 
+running_cust_count / total_customers * 100 AS cust_cumul_pct, 
+round(running_total / gtotal *100,2) AS cumulative_pct 
+FROM running_totals
+ORDER BY running_cust_count ASC;
+
+# Identifying customers whose transaction value is above the overall customer median/average,
+WITH cust_totals AS (SELECT 
+	customerid,
+    SUM(`transactionamount_(inr)`) AS cust_amt
+	FROM banktxns
+	GROUP BY customerid
+	)
+SELECT 
+	customerid, 
+    cust_amt
+FROM cust_totals 
+HAVING cust_amt > (SELECT AVG(cust_amt) FROM cust_totals)
+ORDER BY cust_amt DESC;
+
+-- For each customer, calculate their total transaction value, transaction count, and 
+-- average transaction value. Then identify customers who have both 2+ transactions AND 
+-- total transaction value above the overall customer average.
+
+SELECT 
+	customerid,
+    SUM(`transactionamount_(inr)`) AS total_trans_value,
+    COUNT(transactionid) AS trans_count,
+    AVG(`transactionamount_(inr)`) AS avg_trans_value
+    FROM banktxns
+	GROUP BY customerid
+    ORDER BY total_trans_value DESC;
+   
+ WITH cust_totals AS (SELECT 
+	customerid,
+    SUM(`transactionamount_(inr)`) AS total_trans_value,
+    COUNT(transactionid) AS trans_count,
+    AVG(`transactionamount_(inr)`) AS avg_trans_value
+    FROM banktxns
+	GROUP BY customerid
+    )
+SELECT 
+	customerid, 
+    total_trans_value
+FROM cust_totals 
+WHERE total_trans_value > (SELECT AVG(`transactionamount_(inr)`) FROM banktxns)
+AND trans_count >= 2
+ORDER BY total_trans_value DESC ;
+
+# Which customer locations contribute the most transaction value, and what percentage of total transaction
+-- value does each location contribute?	
+
+WITH Location_totals AS  (SELECT 
+        custlocation,
+        (SUM(`transactionamount_(inr)`)) AS loca_contribute
+		FROM banktxns
+		GROUP BY custlocation
+        )
+SELECT 
+    custlocation,
+    ROUND(loca_contribute, 2) AS location_contribution,
+    ROUND(loca_contribute *100/(SELECT SUM(loca_contribute) FROM Location_totals),2) AS loca_contribution_pct
+FROM Location_totals
+ORDER BY loca_contribute DESC;
+
+# For each location, how much of its transaction value comes from high-value transactions above ₹10,000?
+SELECT 
+        custlocation,
+        (SUM(`transactionamount_(inr)`)) AS loca_contribute
+FROM banktxns
+WHERE `transactionamount_(inr)`>= 10000
+GROUP BY custlocation
+ORDER BY loca_contribute DESC;
+  
+ #******* 
+  
+SELECT 
+    custlocation,
+
+    COUNT(transactionid) AS total_transactions,
+
+    SUM(CASE 
+            WHEN `transactionamount_(inr)` >= 10000 
+            THEN 1 ELSE 0 
+        END) AS high_value_transactions,
+
+    SUM(`transactionamount_(inr)`) AS total_value,
+
+    SUM(CASE 
+            WHEN `transactionamount_(inr)` >= 10000 
+            THEN `transactionamount_(inr)` 
+            ELSE 0 
+        END) AS high_value,
+
+    ROUND(
+        SUM(CASE 
+                WHEN `transactionamount_(inr)` >= 10000 
+                THEN `transactionamount_(inr)` 
+                ELSE 0 
+            END)
+        * 100 / SUM(`transactionamount_(inr)`),
+        2
+    ) AS high_value_pct
+
+FROM banktxns
+GROUP BY custlocation
+ORDER BY high_value DESC;
+
+# What percentage of the bank's total transaction value is generated by the top 20% of customers?
+WITH Cust_totals AS
+    (SELECT customerid,
+		SUM(`transactionamount_(inr)`) AS cust_amt,
+        COUNT(transactionid) AS transaction_count
+	FROM banktxns
+    GROUP BY customerid
+    ORDER BY cust_amt DESC),
+Cumulative_totals AS
+    (SELECT customerid,
+	ROW_NUMBER() OVER(ORDER BY cust_amt DESC) AS running_cust_count,
+	SUM(cust_amt) OVER(ORDER BY cust_amt DESC) AS running_total,
+    SUM(cust_amt) OVER() AS gtotal,
+    COUNT(customerid) OVER() AS total_customers
+    FROM Cust_totals
+    )
+SELECT running_total, 
+running_cust_count,
+running_cust_count*100 / total_customers AS customer_pct,
+running_total / gtotal*100 AS transac_val_pct
+FROM Cumulative_totals
+WHERE running_cust_count * 100.0 / total_customers <= 20
+ORDER BY running_cust_count;
+
+
+
+
+
+
+	
+
