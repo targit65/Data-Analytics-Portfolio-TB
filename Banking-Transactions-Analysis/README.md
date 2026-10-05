@@ -8,6 +8,7 @@ Data Audit → Data Cleaning → Exploratory Data Analysis → SQL Business Anal
 The objective is to transform raw transaction data into actionable business insights that can support transaction monitoring, customer segmentation, location analysis, and management reporting.
 ________________________________________
 🛠️ Tools & Technologies
+
 •	Python
 o	Pandas
 o	NumPy
@@ -68,6 +69,7 @@ ________________________________________
 📈 Key Business Findings
 
 1. Overall Transaction Performance
+   
 •	Total Transaction Value: ₹1.651 billion
 •	Average Transaction Value: ₹1,574.34
 •	Median Transaction Value: ₹459.03
