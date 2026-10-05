@@ -212,7 +212,7 @@ ________________________________________
 Bank-Transactions-Analysis/README.md
       data/README.md
       
-      notebook/bank_analysis.ipynb
+      python/bank_analysis.ipynb
       
       sql/banking_analysis.sql
       
