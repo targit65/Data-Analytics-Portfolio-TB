@@ -1,6 +1,7 @@
-Dataset
 
+Dataset
 This project uses a banking transaction dataset containing approximately 1.05 million transaction records.
+
 Dataset Summary
 
 •	Records: 1,048,567
@@ -17,6 +18,7 @@ The analysis files in this repository are designed to demonstrate the complete a
 Data Preparation
 
 The dataset is:
+
 •	Audited for data quality
 •	Checked for duplicate transactions
 •	Validated for missing values
@@ -25,4 +27,5 @@ The dataset is:
 •	Analyzed for transaction patterns and outliers
 •	Used for SQL business analysis and Power BI visualization
 The Python notebook documents the main data preparation and analytical steps.
+
 
