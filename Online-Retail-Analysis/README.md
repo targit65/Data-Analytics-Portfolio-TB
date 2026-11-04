@@ -96,22 +96,16 @@ Interactive slicers allow filtering by Category, Item ID and Shop ID.
 
 # **Repository Structure** 
 ```text
-Online-Retail-Data-Analysis/ 
-│
-├── README.md
+Online-Retail-Data-Analysis/
 │
 ├── data/
-│       ├──raw
-│       ├──processed
-│   
-│
-├── notebook/
-│   └── data-audit.ipynb
-    └── data-analysis.ipynb
-│
+│     ├──raw/
+│     ├──processed/
+├── notebooks/
 ├── sql/
-│   └── Bank_Transactions_Analysis.sql
-
+├── powerbi/
+├── outputs/
+└── README.md
 
 
 ```
