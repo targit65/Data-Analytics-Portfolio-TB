@@ -99,12 +99,11 @@ Interactive slicers allow filtering by Category, Item ID and Shop ID.
 Online-Retail-Data-Analysis/
 │
 ├── data/
-│     ├──raw/
-│     ├──processed/
+│    └── README.md   
 ├── notebooks/
 ├── sql/
 ├── powerbi/
-├── outputs/
+├── images/
 └── README.md
 
 
