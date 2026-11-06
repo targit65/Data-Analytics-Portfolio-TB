@@ -114,7 +114,7 @@ This project demonstrates an end-to-end business data analysis workflow, from ra
 
 The analysis highlights marketplace product and shop patterns while acknowledging the limitations of cumulative listing-level data. 
 
-**Project Type:** Data Analytics | Business Intelligence **Status:** Analysis and dashboard completed; documentation in progress. 
+**Status:** Completed – Data Analysis, SQL Analysis, Power BI Dashboards and Project Documentation. 
 
 
 
